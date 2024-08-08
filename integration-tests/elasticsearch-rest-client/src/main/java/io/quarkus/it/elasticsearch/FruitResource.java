@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.UUID;
 
 import jakarta.inject.Inject;
-import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
+import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.BadRequestException;
 
 @Path("/fruits")
 public class FruitResource {
@@ -44,6 +45,20 @@ public class FruitResource {
         } else {
             throw new BadRequestException("Should provide name or color query parameter");
         }
+    }
+
+    @Path("bulk")
+    @DELETE
+    public Response delete(List<String> identityList) throws IOException {
+        fruitService.delete(identityList);
+        return Response.ok().build();
+    }
+
+    @Path("bulk")
+    @POST
+    public Response index(List<Fruit> list) throws IOException {
+        fruitService.index(list);
+        return Response.ok().build();
     }
 
 }
